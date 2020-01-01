@@ -2,7 +2,7 @@
 #include <stdio.h>
 #include <ctime>
 #include "shortest_path.h"
-
+#define INF (1<<22)
 int main()
 {
   srand(static_cast<unsigned>(1));
@@ -14,7 +14,7 @@ int main()
     float *arc;
     int *path_node;
     float *shortLenTable;
-    arc = new float[i * i]{0,2,6,4,-1,0,3,-1,7,-1,-0,1,5,-1,12,0};
+    arc = new float[i * i]{0,2,6,4,INF,0,3,INF,7,INF,-0,1,5,INF,12,0};
     // for (size_t j = 0; j < i * i; j++)
     // {
     //   arc[j] =-1;
