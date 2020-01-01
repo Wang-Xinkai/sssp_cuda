@@ -66,6 +66,8 @@ void shortestPath_floyd(int num_nodes, int *vex, float *arc, int *path_nodes, fl
 		hipDeviceSynchronize();
 	}
     cout << "finish computing.\n";
+    shortLenTable = (float *)malloc(num_node * num_node * sizeof(float));
+    path_node = (int *)malloc(num_node * num_node * sizeof(int));
 	errCheck(hipMemcpy(shortLenTable,dG,numBytesFloat,_DTH));
 	errCheck(hipMemcpy(path_nodes,dP,numBytesInt,_DTH));
     cout << "finishg copy.\n";
