@@ -12,16 +12,16 @@ using namespace std;
 #define _DTH hipMemcpyDeviceToHost
 #define _HTD hipMemcpyHostToDevice
 
-#define errCheck(cmd)                                                                
-  {                                                                                  
-    hipError_t error = cmd;                                                          
-    if (error != hipSuccess)                                                         
-    {                                                                                
-      fprintf(stderr, "error: '%s'(%d) at %s:%d\n", hipGetErrorString(error), error, 
-              __FILE__, __LINE__);                                                   
-      exit(EXIT_FAILURE);                                                            
-    }                                                                                
-  }
+#define errCheck(cmd)                                                                \
+{                                                                                  \
+  hipError_t error = cmd;                                                          \
+  if (error != hipSuccess)                                                         \
+  {                                                                                \
+    fprintf(stderr, "error: '%s'(%d) at %s:%d\n", hipGetErrorString(error), error, \
+            __FILE__, __LINE__);                                                   \
+    exit(EXIT_FAILURE);                                                            \
+  }                                                                                \
+}
 
 //GPU kernel/functions forward declaration
 __global__ void _GPU_Floyd_kernel(int k, float *G,float *P, int N);
@@ -58,9 +58,9 @@ void shortestPath_floyd(int num_nodes, int *vex, float *arc, int *path_nodes, fl
 	errCheck(hipMemcpy(dG,arc,numBytesFloat,_HTD));
 	errCheck(hipMemcpy(dP,path_nodes,numBytesInt,_HTD));
 
-	dim3 dimGrid((N+BLOCK_SIZE-1)/BLOCK_SIZE,N);
+	dim3 dimGrid((num_nodes+BLOCK_SIZE-1)/BLOCK_SIZE,num_nodes);
 
-	for(int k=0;k<N;k++){//main loop
+	for(int k=0;k<num_nodes;k++){//main loop
 		hipLaunchKernelGGL(HIP_KERNEL_NAME(_GPU_Floyd_kernel), dim3(dimGrid), dim3(BLOCK_SIZE), 0, 0, k,dG,dP,num_nodes);
 		hipDeviceSynchronize();
 	}
