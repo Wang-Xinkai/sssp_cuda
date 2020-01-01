@@ -4,6 +4,7 @@
 #include <cstdlib>
 #include <cmath>
 #include "hip/hip_runtime.h"
+#include "../shortest_path.h"
 
 using namespace std;
 
@@ -64,8 +65,10 @@ void shortestPath_floyd(int num_nodes, int *vex, float *arc, int *path_nodes, fl
 		hipLaunchKernelGGL(HIP_KERNEL_NAME(_GPU_Floyd_kernel), dim3(dimGrid), dim3(BLOCK_SIZE), 0, 0, k,dG,dP,num_nodes);
 		hipDeviceSynchronize();
 	}
+    cout << "finish computing.\n";
 	errCheck(hipMemcpy(shortLenTable,dG,numBytesFloat,_DTH));
 	errCheck(hipMemcpy(path_nodes,dP,numBytesInt,_DTH));
+    cout << "finishg copy.\n";
 	errCheck(hipFree(dG));
 	errCheck(hipFree(dP));
 }

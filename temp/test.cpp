@@ -1,7 +1,7 @@
 #include <cstdlib>
 #include <stdio.h>
 #include <ctime>
-#include "shortest_path.h"
+#include "../shortest_path.h"
 #define INF (1<<22)
 int main()
 {
